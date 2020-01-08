@@ -41,7 +41,19 @@ namespace MyAwesomeWebApi
 
             // Configure Identity MongoDB
             services.AddMongoIdentityProvider<ApplicationUser, ApplicationRole>
-            (Configuration.GetConnectionString("MongoDbDatabase"), options =>             {                 options.Password.RequiredLength = 6;                 options.Password.RequireLowercase = true;                 options.Password.RequireUppercase = true;                 options.Password.RequireNonAlphanumeric = true;                 options.Password.RequireDigit = true;             });
+            (Configuration.GetConnectionString("MongoDbDatabase"), options =>             {
+                //options.Password.RequiredLength = 6;
+                //options.Password.RequireLowercase = true;
+                //options.Password.RequireUppercase = true;
+                //options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequireDigit = true;
+
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;             });
+
 
             // Add Jwt Authentication
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims             services.AddAuthentication(options =>             {

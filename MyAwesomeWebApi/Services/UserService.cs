@@ -27,19 +27,6 @@ namespace MyAwesomeWebApi.Models
         //----------------------------------------------------
         public IMongoCollection<ApplicationUser> UsersCollection { get; }
 
-
-
-
-        private ObjectId GetInternalId(string id)
-        {
-            ObjectId internalId;
-            if (!ObjectId.TryParse(id, out internalId))
-                internalId = ObjectId.Empty;
-
-            return internalId;
-        }
-
-
         //----------------------------------------------------
         //-----------------GetAllUsers-------------------
         //----------------------------------------------------

@@ -11,8 +11,8 @@ namespace MyAwesomeWebApi.Models.Papras
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public Guid IdSubj { get; set; }
-        public string Name { get; set; }
+        public String SubjId { get; set; }
+        public string SubjName { get; set; }
 
     }
 }
