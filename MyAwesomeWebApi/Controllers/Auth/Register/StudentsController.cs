@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MyAwesomeWebApi.Helpers;
+using MyAwesomeWebApi.Models;
 using MyAwesomeWebApi.Models.Auth.Identity.Roles;
 using MyAwesomeWebApi.Models.Identity;
 using MyAwesomeWebApi.Models.Requests;
@@ -22,6 +23,7 @@ namespace MyAwesomeWebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly UserService userService;
 
         public StudentsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
@@ -29,6 +31,17 @@ namespace MyAwesomeWebApi.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
         }
+
+        //public async Task<List<Student>> GetAllUsers()
+        //{
+        //    var users = new List<Student>();
+
+        //    var allDocuments = await UsersCollection.FindAsync(new BsonDocument());
+
+        //    await allDocuments.ForEachAsync(doc => users.Add(doc));
+
+        //    return users;
+        //}
 
 
         // POST api/students/register

@@ -8,11 +8,8 @@ namespace MyAwesomeWebApi.Models.Auth.Identity.Roles
 {
     public class Student : ApplicationUser
     {
-
-
-        public string ClassRoomId { get; set; }
-
-        public ICollection<String> Plug { get; set; }
+        //public String ClassroomId { get; set; }
+        public ICollection<String> Plugs { get; set; }
 
 
     }
