@@ -67,8 +67,8 @@ namespace MyAwesomeWebApi.Controllers
             return NoContent();
         }
 
-        // Delete api/user/DeleteAsync/5
-        [HttpDelete("{id:length(24)}")]
+        // Delete api/user/delete/5
+        [HttpDelete("delete/{id:length(24)}")]
         public async Task<ActionResult> DeleteAsync(string id)
         {
             await userService.DeleteUser(id);

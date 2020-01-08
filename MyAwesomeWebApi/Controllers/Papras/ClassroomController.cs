@@ -23,7 +23,7 @@ namespace MyAwesomeWebApi.Controllers.Papras
         }
 
         // GET api/Classroom/getallClassrooms
-        [HttpGet]
+        [HttpGet("getallClassrooms")]
         public async Task<ActionResult> getAllClassrooms()
         {
             var allClassrooms = await classroomService.GetAllclassrooms();
@@ -31,7 +31,7 @@ namespace MyAwesomeWebApi.Controllers.Papras
         }
 
         // Get api/Classroom/GetClassroomById/5
-        [HttpGet("{id}")]
+        [HttpGet("GetClassroomById/{id}")]
         public async Task<ActionResult<Classroom>> GetClassroomById(String id)
         {
             return await classroomService.GetclassroomById(id);
@@ -48,14 +48,14 @@ namespace MyAwesomeWebApi.Controllers.Papras
         }
 
         // POST: api/Classroom/addClassroom
-        [HttpPost]
+        [HttpPost("addClassroom")]
         public async Task PostAsync([FromBody]Classroom todo)
         {
             await classroomService.InsertClassroom(todo);
         }
 
-        // Delete api/Classroom/DeleteAsync/5
-        [HttpDelete("{id:length(24)}")]
+        // Delete api/Classroom/Delete/5
+        [HttpDelete("Delete/{id:length(24)}")]
         public async Task<ActionResult> DeleteAsync(String id)
         {
             await classroomService.Deleteclassroom(id);

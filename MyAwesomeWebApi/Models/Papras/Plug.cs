@@ -7,18 +7,24 @@ using System.Threading.Tasks;
 
 namespace MyAwesomeWebApi.Models.Papras
 {
+
+
     public class Plug
     {
+
+        public enum Types { Presence = 0 , Orientation = 1 , Absence = 2 }
+        public enum States { Waiting = 0, NotApproved = 1, Approved = 2 }
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public String IdFile { get; set; }
+        public string IdFile { get; set; }
 
-        public String Type { get; set; }
+        public Types Type { get; set; }
 
-        public DateTime DateCreation { get; set; }
-        public String State { get; set; }
+        public DateTime DateCreation { get; set; } = DateTime.Now;
+        public States State { get; set; } = States.Waiting;
 
-        public String IdStudent { get; set; }
-        public String IdTeacher { get; set; }
+        public string IdStudent { get; set; }
+        public string IdTeacher { get; set; }
     }
 }
