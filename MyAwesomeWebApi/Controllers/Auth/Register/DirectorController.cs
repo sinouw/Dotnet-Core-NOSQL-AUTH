@@ -45,10 +45,10 @@ namespace MyAwesomeWebApi.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "director");
+                    await _userManager.AddToRoleAsync(user, "Director");
                     await _userManager.UpdateSecurityStampAsync(user);
                     await _signInManager.SignInAsync(user, false);
-                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, _configuration);
+                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, "Director", _configuration);
 
                     var rootData = new SignUpResponse(token, user.UserName, user.Email);
                     return Created("api/director/register", rootData);

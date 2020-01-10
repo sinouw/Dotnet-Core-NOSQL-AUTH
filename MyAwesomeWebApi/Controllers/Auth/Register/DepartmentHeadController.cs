@@ -42,13 +42,17 @@ namespace MyAwesomeWebApi.Controllers
                 var user = new DepartmentHead { Name = model.Name, LastName = model.LastName, City = model.City, UserName = model.Email, Email = model.Email,PhoneNumber=model.PhoneNumber };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "DepartmentHead");
                     await _userManager.UpdateSecurityStampAsync(user);
                     await _signInManager.SignInAsync(user, false);
-                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, _configuration);
+
+                    var user1 = await _userManager.GetUserAsync(User);
+                    var role = _userManager.GetRolesAsync(user).ToAsyncEnumerable().First();
+                    var onerole = role.ToString();
+
+                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, "DepartmentHead", _configuration);
 
                     var rootData = new SignUpResponse(token, user.UserName, user.Email);
                     return Created("api/departmentHead/register", rootData);

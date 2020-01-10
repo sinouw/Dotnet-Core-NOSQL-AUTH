@@ -12,7 +12,7 @@ namespace MyAwesomeWebApi.Models.Papras
     public class Plug
     {
 
-        public enum Types { Presence = 0 , Orientation = 1 , Absence = 2 }
+        public enum Types { Presence = 0 , Absence = 1, Orientation = 2 }
         public enum States { Waiting = 0, NotApproved = 1, Approved = 2 }
 
         [BsonId]
@@ -24,7 +24,12 @@ namespace MyAwesomeWebApi.Models.Papras
         public DateTime DateCreation { get; set; } = DateTime.Now;
         public States State { get; set; } = States.Waiting;
 
-        public string IdStudent { get; set; }
-        public string IdTeacher { get; set; }
+        public string Subject { get; set; }
+        public DateTime VerifDate { get; set; }
+
+        public string Description { get; set; }
+
+        public string StudentEmail { get; set; }
+        public string TeacherName { get; set; }
     }
 }

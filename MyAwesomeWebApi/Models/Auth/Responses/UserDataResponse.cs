@@ -15,5 +15,7 @@ namespace MyAwesomeWebApi.Models.Responses
 
         public string PhoneNumber { get; set; }
 
+        public string Role { get; set; }
+
     }
 }

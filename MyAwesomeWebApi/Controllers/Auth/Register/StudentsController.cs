@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MyAwesomeWebApi.Helpers;
 using MyAwesomeWebApi.Models;
 using MyAwesomeWebApi.Models.Auth.Identity.Roles;
@@ -30,19 +31,11 @@ namespace MyAwesomeWebApi.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+
+            userService = new UserService("awesomedatabase", "users", "mongodb://localhost:27017");
         }
 
-        //public async Task<List<Student>> GetAllUsers()
-        //{
-        //    var users = new List<Student>();
-
-        //    var allDocuments = await UsersCollection.FindAsync(new BsonDocument());
-
-        //    await allDocuments.ForEachAsync(doc => users.Add(doc));
-
-        //    return users;
-        //}
-
+     
 
         // POST api/students/register
         [HttpPost("register")]
@@ -61,7 +54,7 @@ namespace MyAwesomeWebApi.Controllers
                     await _userManager.AddToRoleAsync(user, "Student");
                     await _userManager.UpdateSecurityStampAsync(user);
                     await _signInManager.SignInAsync(user, false);
-                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, _configuration);
+                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, "Student", _configuration);
 
                     var rootData = new SignUpResponse(token, user.UserName, user.Email);
                     return Created("api/Students/register", rootData);

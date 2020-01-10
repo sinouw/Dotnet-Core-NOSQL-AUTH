@@ -15,6 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson.Serialization;
+using MyAwesomeWebApi.Helpers;
+using MyAwesomeWebApi.Models.Auth.Identity.Roles;
 using MyAwesomeWebApi.Models.Auth.Settings;
 using MyAwesomeWebApi.Models.Identity;
 
@@ -32,6 +35,14 @@ namespace MyAwesomeWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            BsonClassMap.RegisterClassMap<DepartmentHead>(); // do it before you access DB
+            BsonClassMap.RegisterClassMap<Student>(); // do it before you access DB
+            BsonClassMap.RegisterClassMap<Teacher>(); // do it before you access DB
+            BsonClassMap.RegisterClassMap<Staff>(); // do it before you access DB
+            BsonClassMap.RegisterClassMap<Director>(); // do it before you access DB
+
+            //Inject AppSettings
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
             services.Configure<Settings>(options =>
             {
@@ -67,6 +78,8 @@ namespace MyAwesomeWebApi
                 };             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +96,16 @@ namespace MyAwesomeWebApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseCors(builder =>
+           //builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
+           builder.WithOrigins("http://localhost:4200")
+           .AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowCredentials()
+
+           );
+
         }
     }
 }

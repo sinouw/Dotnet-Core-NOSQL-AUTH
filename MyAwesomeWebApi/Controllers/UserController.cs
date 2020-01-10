@@ -48,12 +48,14 @@ namespace MyAwesomeWebApi.Controllers
         public async Task<ActionResult> UserData()
         {
             var user = await _userManager.GetUserAsync(User);
+            //var role = _userManager.GetRolesAsync(user);
             var userData = new UserDataResponse
             {
                 Name = user.UserName,
                 LastName = user.LastName,
                 City = user.City,
-                Email = user.Email
+                Email = user.Email,
+                Role = user.Roles[0]
             };
             return Ok(userData);
         }

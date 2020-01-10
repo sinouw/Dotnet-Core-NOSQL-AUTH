@@ -53,7 +53,6 @@ namespace MyAwesomeWebApi.Services
             var filter = Builders<Plug>.Filter.Eq(plug => plug.IdFile, id);
 
             var update = Builders<Plug>.Update
-                           .Set(plug => plug.Type, appPlug.Type)
                            .Set(plug => plug.State, appPlug.State);
 
             await PlugCollection.UpdateOneAsync(filter, update);

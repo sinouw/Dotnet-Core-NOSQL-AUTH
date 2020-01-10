@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MyAwesomeWebApi.Models.Auth.Identity.Roles;
@@ -19,6 +20,7 @@ namespace MyAwesomeWebApi.Models
             var mongoClient = new MongoClient(databaseUrl);
             var mongoDataBase = mongoClient.GetDatabase(databaseName);
             UsersCollection = mongoDataBase.GetCollection<ApplicationUser>(collectionName);
+            StudentsCollection = mongoDataBase.GetCollection<Student>(collectionName);
         }
 
 
@@ -26,20 +28,49 @@ namespace MyAwesomeWebApi.Models
         //----------------------------------------------------
         //----------------------------------------------------
         public IMongoCollection<ApplicationUser> UsersCollection { get; }
+        public IMongoCollection<Student> StudentsCollection { get; }
 
         //----------------------------------------------------
         //-----------------GetAllUsers-------------------
         //----------------------------------------------------
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
-            var users = new List<ApplicationUser>();
+            var docs = await UsersCollection.Find(_ => true).ToListAsync();
 
-            var allDocuments = await UsersCollection.FindAsync(new BsonDocument());
-
-            await allDocuments.ForEachAsync(doc => users.Add(doc));
-
-            return users;
+            return docs;
         }
+
+        //----------------------------------------------------
+        //-----------------GetOneUser-------------------
+        //----------------------------------------------------
+        public async Task<ApplicationUser> GetOneUserByemail(string email)
+        {
+            ApplicationUser doc = await UsersCollection.Find(_ => _.Email == email).FirstOrDefaultAsync();
+
+            return doc;
+        }
+
+        //----------------------------------------------------
+        //-----------------GetOneUserRole-------------------
+        //----------------------------------------------------
+        public async Task<string> GetOneUserRoleByemail(string email)
+        {
+            ApplicationUser doc = await UsersCollection.Find(_ => _.Email == email).FirstOrDefaultAsync();
+
+            return doc.Roles[0];
+        }
+
+
+        ////----------------------------------------------------
+        ////-----------------GetAllStudents-------------------
+        ////----------------------------------------------------
+        //public async Task<List<Student>> GetAllStudents()
+        //{
+        //    //var docs = await StudentsCollection.Find(_ => true).ToListAsync();
+        //    //var documents = await StudentsCollection.Find(Builders<Student>.Filter.Empty).ToListAsync();
+        //    var documents = await StudentsCollection.Find(Builders<Student>.Filter.Empty).ToListAsync();
+        //    return documents;
+        //}
 
         //----------------------------------------------------
         //---------------GetUserById--------------------

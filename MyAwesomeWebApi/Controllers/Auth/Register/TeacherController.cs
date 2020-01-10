@@ -48,7 +48,7 @@ namespace MyAwesomeWebApi.Controllers
                     await _userManager.AddToRoleAsync(user, "Teacher");
                     await _userManager.UpdateSecurityStampAsync(user);
                     await _signInManager.SignInAsync(user, false);
-                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, _configuration);
+                    var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, "Teacher", _configuration);
 
                     var rootData = new SignUpResponse(token, user.UserName, user.Email);
                     return Created("api/teacher/register", rootData);
